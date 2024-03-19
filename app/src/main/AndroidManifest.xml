@@ -39,6 +39,7 @@
             </intent-filter>
         </receiver>
     </application>
+
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />

@@ -18,19 +18,15 @@
             android:id="@+id/buttonNewEventCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onCreateNewEventCategoryButtonClick"
             android:text="New Event Category" />
 
         <Button
             android:id="@+id/buttonAddEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onAddEventButtonClick"
             android:text="Add Event" />
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="gotoRegisterActivity"
-            android:text="Go To Register Page (TESTING)" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

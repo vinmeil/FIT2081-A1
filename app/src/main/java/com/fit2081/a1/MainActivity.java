@@ -15,12 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActivityCompat.requestPermissions(this, new String[]{
-                android.Manifest.permission.SEND_SMS,
-                android.Manifest.permission.RECEIVE_SMS,
-                android.Manifest.permission.READ_SMS
-        }, 0);
-
         SharedPreferences sharedPreferences = getSharedPreferences(KeyStore.FILE_NAME, MODE_PRIVATE);
         String username = sharedPreferences.getString(KeyStore.KEY_USERNAME, null);
         String password = sharedPreferences.getString(KeyStore.KEY_PASSWORD, null);
@@ -31,10 +25,21 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                android.Manifest.permission.SEND_SMS,
+                android.Manifest.permission.RECEIVE_SMS,
+                android.Manifest.permission.READ_SMS
+        }, 0);
     }
 
-    public void gotoRegisterActivity(View view) {
-        Intent intent = new Intent(this, SignupActivity.class);
+    public void onCreateNewEventCategoryButtonClick(View view) {
+        Intent intent = new Intent(this, NewEventCategoryActivity.class);
         startActivity(intent);
+    }
+
+    public void onAddEventButtonClick(View view) {
+//        Intent intent = new Intent(this, NewEventActivity.class);
+//        startActivity(intent);
     }
 }

@@ -10,15 +10,20 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 
 public class SMSReceiver extends BroadcastReceiver {
+    public static final String SMS_FILTER = "SMS_FILTER";
+    public static final String SMS_MSG_KEY = "SMS_MSG_KEY";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
         for (int i = 0; i < messages.length; i++) {
             SmsMessage currentMessage = messages[i];
-            String senderNum = currentMessage.getDisplayOriginatingAddress();
             String message = currentMessage.getDisplayMessageBody();
-            Toast.makeText(context,"Sender: "+ senderNum + ", message: " + message, Toast.LENGTH_LONG).show();
+
+            Intent msgIntent = new Intent();
+            msgIntent.setAction(SMS_FILTER);
+            msgIntent.putExtra(SMS_MSG_KEY, message);
+            context.sendBroadcast(msgIntent);
         }
     }
 }
