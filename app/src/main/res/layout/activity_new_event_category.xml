@@ -70,8 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Category ID"
-                android:inputType="textPersonName" />
+                android:hint="Category ID (Auto Generated)" />
         </LinearLayout>
 
         <LinearLayout
@@ -126,14 +125,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonCreateNewCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:onClick="onCreateNewCategoryButtonClick"
         android:text="Create Event Category"
         app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
-        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
-        tools:layout_editor_absoluteX="90dp" />
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
