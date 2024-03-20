@@ -8,4 +8,9 @@ public class KeyStore {
     public static String KEY_CATEGORY_NAME = "KEY_CATEGORY_NAME";
     public static String KEY_CATEGORY_EVENT_COUNT = "KEY_CATEGORY_EVENT_COUNT";
     public static String KEY_IS_CATEGORY_EVENT_ACTIVE = "KEY_IS_CATEGORY_EVENT_ACTIVE";
+    public static String KEY_EVENT_ID = "KEY_EVENT_ID";
+    public static String KEY_EVENT_NAME = "KEY_EVENT_NAME";
+    public static String KEY_EVENT_CATEGORY_ID = "KEY_EVENT_CATEGORY_ID";
+    public static String KEY_EVENT_TICKETS_AVAILABLE = "KEY_EVENT_TICKETS_AVAILABLE";
+    public static String KEY_IS_EVENT_ACTIVE = "KEY_IS_EVENT_ACTIVE";
 }

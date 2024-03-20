@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddEventButtonClick(View view) {
-//        Intent intent = new Intent(this, NewEventActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, NewEventActivity.class);
+        startActivity(intent);
     }
 }

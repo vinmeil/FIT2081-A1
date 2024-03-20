@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewEventCategoryActivity">
+    tools:context=".NewEventActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"
@@ -45,10 +45,10 @@
         tools:layout_editor_absoluteY="2dp">
 
         <TextView
-            android:id="@+id/textViewNewEventCategoryTitle"
+            android:id="@+id/textViewNewEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Event Category"
+            android:text="New Event"
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -60,37 +60,58 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/textViewCategoryId"
+                android:id="@+id/textViewEventId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Event ID" />
+
+            <EditText
+                android:id="@+id/editTextEventId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Event ID (Auto Generated)" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textViewEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Event Name" />
+
+            <EditText
+                android:id="@+id/editTextEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter Event Name"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textViewEventCategoryId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category ID" />
 
             <EditText
-                android:id="@+id/editTextCategoryId"
+                android:id="@+id/editTextEventCategoryId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Category ID (Auto Generated)" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/textViewCategoryName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Category Name" />
-
-            <EditText
-                android:id="@+id/editTextCategoryName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Enter Category Name"
+                android:hint="Enter Category ID"
                 android:inputType="textPersonName" />
         </LinearLayout>
 
@@ -101,36 +122,36 @@
             android:layout_marginTop="10dp">
 
             <TextView
-                android:id="@+id/textViewCategoryCount"
+                android:id="@+id/textViewTicketsAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Event Count" />
+                android:text="Tickets Available" />
 
             <EditText
-                android:id="@+id/editTextCategoryCount"
+                android:id="@+id/editTextTicketsAvailable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Enter Event Count"
+                android:hint="Enter Number of Available Tickets"
                 android:inputType="textPersonName" />
 
             <Switch
-                android:id="@+id/switchCategoryIsActive"
+                android:id="@+id/switchEventIsActive"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category is Active" />
+                android:text="Event is Active" />
         </LinearLayout>
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonCreateNewCategory"
+        android:id="@+id/buttonCreateNewEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:onClick="onCreateNewCategoryButtonClick"
-        android:text="Create Event Category"
+        android:onClick="onCreateNewEventButtonClick"
+        android:text="Create Event"
         app:layout_constraintBottom_toTopOf="@id/guidelineBottom"
         app:layout_constraintEnd_toEndOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft" />
