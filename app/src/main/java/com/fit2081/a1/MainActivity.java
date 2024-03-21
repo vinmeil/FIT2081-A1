@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

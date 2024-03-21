@@ -17,6 +17,7 @@ public class NewEventCategoryActivity extends AppCompatActivity {
     EditText etCategoryId, etCategoryName, etCategoryEventCount;
     Switch isCategoryEventActive;
     String[] splitMessage;
+    EventCategoryBroadCastReceiver eventCategoryBroadCastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +30,19 @@ public class NewEventCategoryActivity extends AppCompatActivity {
         isCategoryEventActive = findViewById(R.id.switchCategoryIsActive);
 
         etCategoryId.setFocusable(false);
+    }
 
-        EventCategoryBroadCastReceiver eventCategoryBroadCastReceiver = new EventCategoryBroadCastReceiver();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        eventCategoryBroadCastReceiver = new EventCategoryBroadCastReceiver();
         registerReceiver(eventCategoryBroadCastReceiver, new IntentFilter(SMSReceiver.SMS_FILTER), RECEIVER_EXPORTED);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(eventCategoryBroadCastReceiver);
     }
 
     public void onCreateNewCategoryButtonClick(View view) {
@@ -45,6 +56,7 @@ public class NewEventCategoryActivity extends AppCompatActivity {
         if (isValid) {
             splitMessage = temporaryMessage;
             saveDataToSharedPreference(categoryId, splitMessage);
+            String toastMessage = String.format("Category saved successfully: %s.", categoryId);
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -94,11 +106,14 @@ public class NewEventCategoryActivity extends AppCompatActivity {
         if (splitMessage.length != 3) {
             isValid = false;
         } else {
-            if (splitMessage[0].isEmpty()) {
+            String categoryName = splitMessage[0];
+            String categoryEventCount = splitMessage[1];
+            String isCategoryEventActive = splitMessage[2];
+            if (categoryName.isEmpty()) {
                 isValid = false;
             }
 
-            if (!splitMessage[1].isEmpty()) {
+            if (!categoryEventCount.isEmpty()) {
                 try {
                     Integer.parseInt(splitMessage[1]);
                 } catch (Exception e) {
@@ -106,7 +121,7 @@ public class NewEventCategoryActivity extends AppCompatActivity {
                 }
             }
 
-            if (!splitMessage[2].isEmpty() && !splitMessage[2].equalsIgnoreCase("true") && !splitMessage[2].equalsIgnoreCase("false")) {
+            if (!isCategoryEventActive.isEmpty() && !isCategoryEventActive.equalsIgnoreCase("true") && !isCategoryEventActive.equalsIgnoreCase("false")) {
                 isValid = false;
             }
         }

@@ -14,39 +14,52 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 public class NewEventActivity extends AppCompatActivity {
-    EditText etEventId, etEventName, etCategoryId, etTicketsAvailable;
+    EditText etEventId, etEventName, etEventCategoryId, etTicketsAvailable;
     Switch isEventActive;
     String[] splitMessage;
+    EventBroadCastReceiver eventBroadCastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_event_category);
+        setContentView(R.layout.activity_new_event);
 
         etEventId = findViewById(R.id.editTextEventId);
         etEventName = findViewById(R.id.editTextEventName);
-        etCategoryId = findViewById(R.id.editTextCategoryId);
+        etEventCategoryId = findViewById(R.id.editTextEventCategoryId);
         etTicketsAvailable = findViewById(R.id.editTextTicketsAvailable);
         isEventActive = findViewById(R.id.switchEventIsActive);
 
-        etCategoryId.setFocusable(false);
+        etEventId.setFocusable(false);
+    }
 
-        EventCategoryBroadCastReceiver eventCategoryBroadCastReceiver = new EventCategoryBroadCastReceiver();
-        registerReceiver(eventCategoryBroadCastReceiver, new IntentFilter(SMSReceiver.SMS_FILTER), RECEIVER_EXPORTED);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        eventBroadCastReceiver = new EventBroadCastReceiver();
+        registerReceiver(eventBroadCastReceiver, new IntentFilter(SMSReceiver.SMS_FILTER), RECEIVER_EXPORTED);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(eventBroadCastReceiver);
     }
 
     public void onCreateNewEventButtonClick(View view) {
-        String categoryId = etCategoryId.getText().toString().isEmpty() ? generateEventId() : etCategoryId.getText().toString();
+        String eventId = etEventId.getText().toString().isEmpty() ? generateEventId() : etEventId.getText().toString();
         String[] temporaryMessage = new String[4];
         temporaryMessage[0] = etEventName.getText().toString();
-        temporaryMessage[1] = etCategoryId.getText().toString();
+        temporaryMessage[1] = etEventCategoryId.getText().toString();
         temporaryMessage[2] = etTicketsAvailable.getText().toString();
         temporaryMessage[3] = String.valueOf(isEventActive.isChecked());
         boolean isValid = checkValidMessage(temporaryMessage);
 
         if (isValid) {
             splitMessage = temporaryMessage;
-            saveDataToSharedPreference(categoryId, splitMessage);
+            saveDataToSharedPreference(eventId, splitMessage);
+            String toastMessage = String.format("Event saved: %s to %s.", eventId, splitMessage[1]);
+            Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -79,17 +92,17 @@ public class NewEventActivity extends AppCompatActivity {
 
 
     private String generateEventId() {
-        String categoryId = "E";
+        String eventId = "E";
         for (int i = 0; i < 2; ++i) {
-            categoryId += (char)('A' + (int)(Math.random() * 26));
+            eventId += (char)('A' + (int)(Math.random() * 26));
         }
 
-        categoryId += "-";
+        eventId += "-";
         for (int i = 0; i < 5; ++i) {
-            categoryId += (char)('0' + (int)(Math.random() * 10));
+            eventId += (char)('0' + (int)(Math.random() * 10));
         }
 
-        return categoryId;
+        return eventId;
     }
 
     private boolean checkValidMessage(String[] splitMessage) {
@@ -97,15 +110,19 @@ public class NewEventActivity extends AppCompatActivity {
         if (splitMessage.length != 4) {
             isValid = false;
         } else {
-            if (splitMessage[0].isEmpty() || splitMessage[1].isEmpty()) {
+            String eventName = splitMessage[0];
+            String eventCategoryId = splitMessage[1];
+            String ticketsAvailable = splitMessage[2];
+            String isEventActive = splitMessage[3];
+            if (eventName.isEmpty() || eventCategoryId.isEmpty()) {
                 isValid = false;
             }
 
-            if (!splitMessage[2].isEmpty()) {
+            if (!ticketsAvailable.isEmpty()) {
                 try {
-                    int ticketsAvailable = Integer.parseInt(splitMessage[1]);
+                    int ticketsAvailableInt = Integer.parseInt(splitMessage[2]);
 
-                    if (ticketsAvailable <= 0) {
+                    if (ticketsAvailableInt <= 0) {
                         isValid = false;
                     }
                 } catch (Exception e) {
@@ -113,7 +130,7 @@ public class NewEventActivity extends AppCompatActivity {
                 }
             }
 
-            if (!splitMessage[3].isEmpty() && !splitMessage[2].equalsIgnoreCase("true") && !splitMessage[2].equalsIgnoreCase("false")) {
+            if (!isEventActive.isEmpty() && !isEventActive.equalsIgnoreCase("true") && !isEventActive.equalsIgnoreCase("false")) {
                 isValid = false;
             }
         }
@@ -121,7 +138,7 @@ public class NewEventActivity extends AppCompatActivity {
         return isValid;
     }
 
-    public class EventCategoryBroadCastReceiver extends BroadcastReceiver {
+    public class EventBroadCastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra(SMSReceiver.SMS_MSG_KEY);
@@ -144,9 +161,9 @@ public class NewEventActivity extends AppCompatActivity {
                 String eventId = generateEventId();
                 etEventId.setText(eventId);
                 etEventName.setText(splitMessage[0]);
-                etCategoryId.setText(splitMessage[1]);
+                etEventCategoryId.setText(splitMessage[1]);
                 etTicketsAvailable.setText(splitMessage[2]);
-                isEventActive.setChecked(Boolean.parseBoolean(splitMessage[2]));
+                isEventActive.setChecked(Boolean.parseBoolean(splitMessage[3]));
             } else {
                 Toast.makeText(context, "Invalid message format!", Toast.LENGTH_SHORT).show();
             }
